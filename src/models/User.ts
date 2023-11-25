@@ -6,11 +6,10 @@ export type TUser = {
     email: string
     phone: string
     address: string
-    password: string
     role: string
 }
 
-const UserSchema = new mongoose.Schema<TUser>(
+const UserSchema = new mongoose.Schema<TUser & { password: string }>(
     {
         name: { type: String, required: true },
         email: { type: String, required: true },
@@ -22,4 +21,6 @@ const UserSchema = new mongoose.Schema<TUser>(
     schemaOptions,
 )
 
-export default mongoose.model('User', UserSchema)
+const User = mongoose.model('User', UserSchema)
+
+export default User

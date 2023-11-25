@@ -1,8 +1,10 @@
 import { Router } from 'express'
-import { regisCustomer } from '../controllers/CustomerController'
+import { login, profile } from '../controllers/AuthController'
+import authenticateUser from '../middlewares/authenticateUser'
 
-const customerRoutes = (Route: Router) => {
-    Route.post('/customer/register', regisCustomer)
+const authRoutes = (Route: Router) => {
+    Route.post('/auth/login', login)
+    Route.get('/auth/profile', authenticateUser, profile)
 }
 
-export default customerRoutes
+export default authRoutes

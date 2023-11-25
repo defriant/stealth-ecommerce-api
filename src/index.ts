@@ -16,6 +16,4 @@ app.use('/', routes())
 db.connect()
 
 const PORT = process.env.SERVER_PORT || 8000
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`)
-})
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`))

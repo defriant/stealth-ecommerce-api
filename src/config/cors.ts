@@ -2,7 +2,7 @@ import corsInstance from 'cors'
 
 const allowedOrigins = ['*']
 
-export default () =>
+const cors = () =>
     corsInstance({
         origin: (origin, callback) => {
             if (allowedOrigins.length === 1 && allowedOrigins[0] === '*') return callback(null, '*')
@@ -10,3 +10,5 @@ export default () =>
             return callback(new Error('Not allowed by CORS'))
         },
     })
+
+export default cors

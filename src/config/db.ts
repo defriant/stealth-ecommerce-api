@@ -2,7 +2,7 @@ import mongoose, { Error as mongooseError } from 'mongoose'
 
 export const schemaOptions = { timestamps: true, versionKey: false }
 
-export default {
+const db = {
     connect: () => {
         if (process.env.MONGO_URI) {
             mongoose.Promise = Promise
@@ -13,3 +13,5 @@ export default {
         }
     },
 }
+
+export default db
