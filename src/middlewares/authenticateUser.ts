@@ -8,7 +8,7 @@ const authenticateUser = async (req: Request, res: Response, next: NextFunction)
 
     if (!token) return res.status(401).json({ message: 'Unauthenticated' })
 
-    const user = await User.findOne({ _id: token._id }).exec()
+    const user = await User.findOne({ _id: token._id })
     if (!user) return res.status(401).json({ message: 'Unauthenticated' })
 
     res.locals.user = user

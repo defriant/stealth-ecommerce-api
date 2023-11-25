@@ -33,7 +33,7 @@ export const registration = async (req: Request, res: Response) => {
         return res.status(422).json(err)
     }
 
-    const isExist = await User.findOne({ email }).exec()
+    const isExist = await User.findOne({ email })
     if (isExist) return res.status(400).json({ message: `User with email ${email} already exist` })
 
     if (password !== confirm_password) return res.status(400).json({ message: `Confirm password doesn't match` })
@@ -41,7 +41,7 @@ export const registration = async (req: Request, res: Response) => {
     const encryptPassword = await bcrypt.hash(password, 10)
 
     try {
-        const createUser = await User.create({
+        const user = await User.create({
             name,
             email,
             phone,
@@ -50,9 +50,14 @@ export const registration = async (req: Request, res: Response) => {
             role: 'customer',
         })
 
-        const createdUser = await User.findOne({ _id: createUser.get('_id') })
-            .select(['-_id', '-password', '-role'])
-            .exec()
+        const createdUser: TUser = {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            address: user.address,
+            phone: user.phone,
+            role: user.role,
+        }
 
         return res.json({
             message: 'Registration successfull',
@@ -83,13 +88,13 @@ export const login = async (req: Request, res: Response) => {
         return res.status(422).json(err)
     }
 
-    const user = await User.findOne({ email }).exec()
+    const user = await User.findOne({ email }).select('+password')
     if (!user) return res.status(400).json({ message: 'Invalid credential' })
 
     const matchPassword = await bcrypt.compare(password, user.password)
     if (!matchPassword) return res.status(400).json({ message: 'Invalid credential' })
 
-    const userData: { _id: string } & TUser = {
+    const userData: TUser = {
         _id: user.id,
         name: user.name,
         email: user.email,

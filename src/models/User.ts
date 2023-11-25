@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { schemaOptions } from '../config/db'
 
 export type TUser = {
+    _id: string
     name: string
     email: string
     phone: string
@@ -15,7 +16,7 @@ const UserSchema = new mongoose.Schema<TUser & { password: string }>(
         email: { type: String, required: true },
         phone: { type: String, required: true },
         address: { type: String, required: true },
-        password: { type: String, required: true },
+        password: { type: String, required: true, select: false },
         role: { type: String, required: true },
     },
     schemaOptions,

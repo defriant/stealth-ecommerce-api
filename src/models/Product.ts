@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { schemaOptions } from '../config/db'
 
 export type TProduct = {
+    _id: string
     name: string
     price: number
     description: string
