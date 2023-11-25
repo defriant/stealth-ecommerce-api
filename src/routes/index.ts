@@ -13,7 +13,7 @@ Route.use('/products', productsRoute)
 Route.use('/auth', authRoute)
 Route.use('/profile', authenticateUser, profileRoute)
 Route.use('/customer', authenticateUser, userRole.customer, customerRoute)
-Route.use('/admin', adminRoute)
+Route.use('/admin', authenticateUser, userRole.admin, adminRoute)
 
 Route.all('/*', (_, res: Response) => res.status(404).json({ message: 'Resource not found' }))
 

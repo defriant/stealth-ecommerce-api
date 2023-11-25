@@ -12,10 +12,7 @@ const userRole: TUserRole = {
         if (role === 'customer') return next()
         return res.status(403).json({
             message: 'Access denied',
-            errors: {
-                role,
-                expected_role: 'customer',
-            },
+            errors: { role, expected_role: 'customer' },
         })
     },
     admin: (req, res, next) => {
@@ -23,10 +20,7 @@ const userRole: TUserRole = {
         if (role === 'admin') return next()
         return res.status(403).json({
             message: 'Access denied',
-            errors: {
-                role,
-                expected_role: 'admin',
-            },
+            errors: { role, expected_role: 'admin' },
         })
     },
 }
