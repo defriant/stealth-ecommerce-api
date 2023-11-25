@@ -4,6 +4,7 @@ export const rng = (min: number, max: number, decimal: number = 1) => {
     return parseFloat(str)
 }
 
+// random string generator
 export const rsg = (length: number) => {
     let result = ''
     const char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
