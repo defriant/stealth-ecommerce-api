@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import Product from '../models/Product'
 
 export const productList = async (req: Request, res: Response) => {
-    const products = await Product.find({}).exec()
+    const products = await Product.find({}).select(['-description', '-createdAt', '-updatedAt']).exec()
     return res.json(products)
 }
 

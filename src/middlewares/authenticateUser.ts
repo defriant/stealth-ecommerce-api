@@ -12,7 +12,7 @@ const authenticateUser = async (req: Request, res: Response, next: NextFunction)
     if (!user) return res.status(401).json({ message: 'Unauthenticated' })
 
     res.locals.user = user
-    next()
+    return next()
 }
 
 export default authenticateUser

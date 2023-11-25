@@ -1,10 +1,9 @@
 import { Router } from 'express'
-import { login, profile } from '../controllers/AuthController'
-import authenticateUser from '../middlewares/authenticateUser'
+import { login, registration } from '../controllers/AuthController'
 
-const authRoutes = (Route: Router) => {
-    Route.post('/auth/login', login)
-    Route.get('/auth/profile', authenticateUser, profile)
-}
+const authRoute = Router({ mergeParams: true })
 
-export default authRoutes
+authRoute.post('/login', login)
+authRoute.post('/registration', registration)
+
+export default authRoute

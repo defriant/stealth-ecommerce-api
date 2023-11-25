@@ -1,18 +1,18 @@
 import { Response, Router } from 'express'
-import customerRoutes from './customer'
-import authRoutes from './auth'
-import productRoute from './product'
+import productsRoute from './product'
+import authRoute from './auth'
+import profileRoute from './profile'
+import customerRoute from './customer'
+import authenticateUser from '../middlewares/authenticateUser'
+import userRole from '../middlewares/userRole'
 
 const Route = Router()
 
-const routes = (): Router => {
-    authRoutes(Route)
-    productRoute(Route)
-    customerRoutes(Route)
+Route.use('/products', productsRoute)
+Route.use('/auth', authRoute)
+Route.use('/profile', authenticateUser, profileRoute)
+Route.use('/customer', authenticateUser, userRole.customer, customerRoute)
 
-    Route.all('/*', (_, res: Response) => res.status(404).json({ message: 'Resource not found' }))
+Route.all('/*', (_, res: Response) => res.status(404).json({ message: 'Resource not found' }))
 
-    return Route
-}
-
-export default routes
+export default Route

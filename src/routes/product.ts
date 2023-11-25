@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import { productDetail, productList } from '../controllers/ProductController'
 
-const productRoute = (Route: Router) => {
-    Route.get('/products', productList)
-    Route.get('/products/:id', productDetail)
-}
+const productsRoute = Router({ mergeParams: true })
 
-export default productRoute
+productsRoute.get('/', productList)
+productsRoute.get('/:id', productDetail)
+
+export default productsRoute
