@@ -93,3 +93,15 @@ export const updateCart = async (req: Request, res: Response) => {
 
     return res.json(cart)
 }
+
+export const deleteCart = async (req: Request, res: Response) => {
+    const { id } = req.params
+    const { _id: user_id } = res.locals.user as TUser
+
+    const isValidId = mongoose.Types.ObjectId.isValid(id)
+    if (!isValidId) return res.status(404).json({ message: 'Cart not foundd' })
+
+    const cart = await Cart.findOneAndDelete({ _id: id, user: user_id }).populate('product')
+    if (!cart) if (!cart) return res.status(404).json({ message: 'Cart not found' })
+    return res.json({ message: `${cart.product.name} has been removed from your cart` })
+}
