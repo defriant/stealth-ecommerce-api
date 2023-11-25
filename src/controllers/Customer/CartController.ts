@@ -9,7 +9,9 @@ import mongoose from 'mongoose'
 export const cartList = async (req: Request, res: Response) => {
     const { _id: user_id } = res.locals.user as TUser
 
-    const carts = await Cart.find({ user: user_id }).populate('product')
+    const carts = await Cart.find({ user: user_id })
+        .populate('product', ['-description', '-createdAt', '-updatedAt'])
+        .select(['-createdAt', '-updatedAt'])
     return res.json(carts)
 }
 
@@ -42,16 +44,20 @@ export const addCart = async (req: Request, res: Response) => {
 
     if (inCart) {
         inCart.quantity += 1
+        inCart.total = product.price * inCart.quantity
         await inCart.save()
     } else {
         await Cart.create({
             product: product._id,
             user: user_id,
             quantity: 1,
+            total: product.price,
         })
     }
 
-    const carts = await Cart.find({ user: user_id }).populate('product')
+    const carts = await Cart.find({ user: user_id })
+        .populate('product', ['-description', '-createdAt', '-updatedAt'])
+        .select(['-createdAt', '-updatedAt'])
 
     return res.json({ message: `${product.name} added to cart`, data: carts })
 }
@@ -85,10 +91,13 @@ export const updateCart = async (req: Request, res: Response) => {
         return res.json({ message: `${cart.product.name} has been removed from your cart` })
     }
 
-    const cart = await Cart.findOne({ _id: id, user: user_id }).populate('product')
+    const cart = await Cart.findOne({ _id: id, user: user_id })
+        .populate('product', ['-description', '-createdAt', '-updatedAt'])
+        .select(['-createdAt', '-updatedAt'])
     if (!cart) return res.status(404).json({ message: 'Cart not found' })
 
     cart.quantity = quantity
+    cart.total = cart.product.price * quantity
     await cart.save()
 
     return res.json(cart)

@@ -8,6 +8,7 @@ export type TCart = {
     product: TProduct
     user: TUser
     quantity: number
+    total: number
 }
 
 const CartSchema = new mongoose.Schema<TCart>(
@@ -23,10 +24,8 @@ const CartSchema = new mongoose.Schema<TCart>(
             required: true,
             select: false,
         },
-        quantity: {
-            type: Number,
-            required: true,
-        },
+        quantity: { type: Number, required: true },
+        total: { type: Number, required: true },
     },
     schemaOptions,
 )

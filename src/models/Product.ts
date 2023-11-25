@@ -5,7 +5,7 @@ export type TProduct = {
     _id: string
     name: string
     price: number
-    description: string
+    description?: string
     stock: number
 }
 
