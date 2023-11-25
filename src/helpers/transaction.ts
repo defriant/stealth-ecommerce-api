@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import Cart, { TCart } from '../models/Cart'
 import { TransactionFees } from '../models/Transaction'
+import { rng, rsg } from './random'
 
 export const createSummarize = async (cart_ids: string[], user_id: string) => {
     // check duplicate entries of cart_ids
@@ -60,4 +61,12 @@ export const createSummarize = async (cart_ids: string[], user_id: string) => {
         grand_total,
         checkout_availability,
     }
+}
+
+export const createInvoiceNumber = () => {
+    const year = new Date().getFullYear()
+    const month = new Date().getMonth() + 1
+    const date = new Date().getDate()
+
+    return `INV/${year}${month}${date}/${rsg(3).toUpperCase()}/${rng(1000000000, 9999999999, 0)}`
 }

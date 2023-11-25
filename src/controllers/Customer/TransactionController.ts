@@ -3,14 +3,14 @@ import { TUser } from '../../models/User'
 import Transaction from '../../models/Transaction'
 import { validateBody } from '../../helpers/validateBody'
 import Joi from 'joi'
-import { createSummarize } from '../../helpers/transaction'
+import { createInvoiceNumber, createSummarize } from '../../helpers/transaction'
 
 export const transactionList = async (req: Request, res: Response) => {
     const { _id: user_id } = res.locals.user as TUser
 
     const transactions = await Transaction.find({ user: user_id })
-    // const number = rng(1000000000, 9999999999, 0)
-    return res.json(transactions)
+    const invoiceNumber = createInvoiceNumber()
+    return res.json(invoiceNumber)
 }
 
 type TSummarizeTransactionBody = {
