@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { addCart, cartList, deleteCart, updateCart } from '../controllers/Customer/CartController'
-import { summarizeTransaction, transactionList } from '../controllers/Customer/TransactionController'
+import { checkoutTransaction, summarizeTransaction, transactionList } from '../controllers/Customer/TransactionController'
 
 const customerRoute = Router({ mergeParams: true })
 
@@ -11,5 +11,6 @@ customerRoute.delete('/carts/:id/delete', deleteCart)
 
 customerRoute.get('/transaction', transactionList)
 customerRoute.post('/transaction/summarize', summarizeTransaction)
+customerRoute.post('/transaction/checkout', checkoutTransaction)
 
 export default customerRoute

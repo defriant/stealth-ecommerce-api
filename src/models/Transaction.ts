@@ -17,9 +17,9 @@ export type TTransactionFees = {
 
 export type TTransaction = {
     _id: string
+    invoice: string
     user: TUser
     products: TTransactionProduct[]
-    invoice: string
     total: number
     fees: TTransactionFees[]
     grand_total: number
@@ -27,10 +27,12 @@ export type TTransaction = {
 
 const TransactionSchema = new mongoose.Schema<TTransaction>(
     {
+        invoice: { type: String, required: true },
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true,
+            select: false,
         },
         products: [
             {
@@ -41,7 +43,6 @@ const TransactionSchema = new mongoose.Schema<TTransaction>(
                 total: Number,
             },
         ],
-        invoice: { type: String, required: true },
         total: { type: Number, required: true },
         fees: [
             {
