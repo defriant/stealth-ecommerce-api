@@ -53,7 +53,7 @@ export const addCart = async (req: Request, res: Response) => {
 
     const carts = await Cart.find({ user: user_id }).populate('product')
 
-    return res.json({ message: `${product.name} added to cart`, carts })
+    return res.json({ message: `${product.name} added to cart`, data: carts })
 }
 
 type TUpdateCartBody = {

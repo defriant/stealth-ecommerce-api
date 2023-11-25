@@ -13,7 +13,7 @@ const ProductSchema = new mongoose.Schema<TProduct>(
     {
         name: { type: String, required: true },
         price: { type: Number, required: true },
-        description: { type: String, required: true },
+        description: { type: String, default: '-' },
         stock: { type: Number, required: true },
     },
     schemaOptions,
