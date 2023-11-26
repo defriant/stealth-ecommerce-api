@@ -41,11 +41,13 @@ export const addCart = async (req: Request, res: Response) => {
     if (!product) return res.status(404).json({ message: 'Product not found' })
 
     const inCart = await Cart.findOne({ product: product._id, user: user_id })
+    let message = ''
 
     if (inCart) {
         inCart.quantity += 1
         inCart.total = product.price * inCart.quantity
         await inCart.save()
+        message = `${product.name} it's already in the cart, quantity updated`
     } else {
         await Cart.create({
             product: product._id,
@@ -53,13 +55,14 @@ export const addCart = async (req: Request, res: Response) => {
             quantity: 1,
             total: product.price,
         })
+        message = `${product.name} added to cart`
     }
 
     const carts = await Cart.find({ user: user_id })
         .populate('product', ['-description', '-createdAt', '-updatedAt'])
         .select(['-createdAt', '-updatedAt'])
 
-    return res.json({ message: `${product.name} added to cart`, data: carts })
+    return res.json({ message: message, data: carts })
 }
 
 type TUpdateCartBody = {
