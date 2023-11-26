@@ -7,6 +7,12 @@ export const productList = async (req: Request, res: Response) => {
     return res.json(products)
 }
 
+export const searchProductByName = async (req: Request, res: Response) => {
+    const { name } = req.query
+    const products = await Product.find({ name: { $regex: name, $options: 'i' } }).select(['-description', '-createdAt', '-updatedAt'])
+    return res.json(products)
+}
+
 export const productDetail = async (req: Request, res: Response) => {
     const { id } = req.params
 
